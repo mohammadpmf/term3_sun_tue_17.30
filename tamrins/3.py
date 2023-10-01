@@ -38,7 +38,10 @@ class PersonalForm():
         self.reset()
     def save(self):
         f_name = filedialog.asksaveasfilename()
+        if f_name == "":
+            return
         f_name+='.json'
+        print(f_name)
         f = open(f_name, 'w')
         info = {
             'Name': self.entry1.get(),
@@ -68,7 +71,17 @@ class PersonalForm():
     def grid(self, row=None, column=None):
         self.frame.grid(row=row, column=column)
 
+class PatientForm(PersonalForm):
+    def __init__(self, root, title='Patient\'s Personal Information', l0='Phone Number: ', l1='Name: ', l2='Surname: ', l3='Father Name:', l4='National Code: ', l5='Age: ', l6='Blood Type', padx=10, pady=10, bg=None, fg=None, font=None):
+        super().__init__(root, title, l1, l2, l3, l4, l5, l6, padx, pady, bg, fg, font)
+        self.label0 = Label(self.frame, text=l0, bg=bg, fg=fg, font=font, padx=padx, pady=pady)
+        self.entry0 = Entry(self.frame, bg=bg, fg=fg, font=font)
+        self.label0.grid(row=0, column=1, sticky='news')
+        self.entry0.grid(row=0, column=2, sticky='news')
+
 root = Tk()
-form1 = PersonalForm(root, bg='sky blue', fg='purple', font=('Serif', 20))
+form1 = PersonalForm(root, bg='sky blue', fg='purple', font=('Serif', 14))
 form1.grid()
+form2 = PatientForm(root, bg='black', fg='white', font=('Serif', 14))
+form2.grid(row=0, column=1)
 mainloop()
