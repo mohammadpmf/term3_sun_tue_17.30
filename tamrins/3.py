@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import filedialog
 import json
-class Personal_Form():
+class PersonalForm():
     def __init__(self, root, title = 'Patient\'s Personal Information', l1='Name: ', l2='Surname: ', l3='Father Name:',
                  l4='National Code: ', l5='Age: ', l6='Blood Type', padx=10, pady=10, bg=None, fg=None, font=None):
         self.root = root
@@ -69,6 +69,6 @@ class Personal_Form():
         self.frame.grid(row=row, column=column)
 
 root = Tk()
-form1 = Personal_Form(root, bg='sky blue', fg='purple', font=('Serif', 20))
+form1 = PersonalForm(root, bg='sky blue', fg='purple', font=('Serif', 20))
 form1.grid()
 mainloop()
