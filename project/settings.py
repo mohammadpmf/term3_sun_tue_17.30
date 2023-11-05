@@ -1,11 +1,15 @@
+BG = "#333333"
+FG = 'orange'
+
 config_btns = {
-    'bg': '#333333',
-    'fg': 'orange',
+    'bg': BG,
+    'fg': FG,
     'padx': 5,
     'pady': 5,
-    'activebackground': 'orange',
-    'activeforeground': '#333333',
-    'font': ('Times', 18)
+    'activebackground': FG,
+    'activeforeground': BG,
+    'font': ('Times', 18),
+    'width': 10,
 }
 config_btns_root_pack = {
     'side': 'left',
