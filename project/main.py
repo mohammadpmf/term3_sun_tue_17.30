@@ -2,8 +2,9 @@ from tkinter import *
 from settings import *
 from my_class import *
 
-def change_window(show_window, hide_window):
-    pass
+def change_window(show_window:Toplevel, hide_window:Toplevel):
+    show_window.deiconify()
+    hide_window.withdraw()
 
 connection = MyConnection()
 root = Tk()
@@ -24,9 +25,20 @@ search_window.config(bg=BG)
 add_window.config(bg=BG)
 update_window.config(bg=BG)
 delete_window.config(bg=BG)
+management_window.protocol("WM_DELETE_WINDOW", root.destroy)
+search_window.protocol("WM_DELETE_WINDOW", root.destroy)
+add_window.protocol("WM_DELETE_WINDOW", root.destroy)
+update_window.protocol("WM_DELETE_WINDOW", root.destroy)
+delete_window.protocol("WM_DELETE_WINDOW", root.destroy)
+management_window.geometry('700x300+300+200')
+search_window.geometry('500x300+300+200')
+add_window.geometry('500x300+300+200')
+update_window.geometry('500x300+300+200')
+delete_window.geometry('500x300+300+200')
 
 ##################   management window widgets ################
-btn_add = Button(management_window, text='Add A Game', cnf=config_btns)
+btn_add = Button(management_window, text='Add A Game', cnf=config_btns,
+                 command=lambda:change_window(add_window, management_window))
 btn_update = Button(management_window, text='Update A Game', cnf=config_btns)
 btn_delete = Button(management_window, text='Delete A Game', cnf=config_btns)
 btn_add.pack(cnf=config_btns_root_pack)
