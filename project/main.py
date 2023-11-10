@@ -46,6 +46,11 @@ btn_update.pack(cnf=config_btns_root_pack)
 btn_delete.pack(cnf=config_btns_root_pack)
 #################  end management window widgets ################
 
+##################   Add window widgets ################
+game = AddGame(add_window)
+game.grid()
+#################  end Add window window widgets ################
+
 btn_management = Button(root, text='Management', cnf=config_btns, command=lambda:change_window(management_window, root))
 btn_search = Button(root, text='Search', cnf=config_btns)
 btn_management.pack(cnf=config_btns_root_pack)
