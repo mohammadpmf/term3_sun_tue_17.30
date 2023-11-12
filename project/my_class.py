@@ -1,4 +1,5 @@
-from fallah import MyGame
+from fallah import *
+from settings import *
 import pymysql
 
 class MyConnection():
@@ -12,4 +13,13 @@ class MyConnection():
 
 
 class AddGame(MyGame):
-    pass
+    def __init__(self, root, bg='#333333', fg='orange', fg2='orange', text="Game Info", font=('Times', 20), bd=1, labelanchor='n', relief='raised', abg="orange", afg="#333333", padx=5, pady=5):
+        super().__init__(root, bg, fg, fg2, text, font, bd, labelanchor, relief, abg, afg, padx, pady)
+        self.btn_save  = Button(self.frame, text='Save', cnf=config_btns)
+        self.btn_reset = Button(self.frame, text='Reset', cnf=config_btns, command=self.reset)
+        self.btn_save .grid(row=15, column=1, sticky='news', padx=padx, pady=pady)
+        self.btn_reset.grid(row=15, column=3, sticky='news', padx=padx, pady=pady)
+    
+    def reset(self):
+        super().reset()
+        self.e_name.focus_set()
