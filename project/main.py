@@ -48,7 +48,7 @@ btn_back_management.pack(cnf=config_btns_root_pack)
 #################  end management window widgets ################
 
 ##################   Add window widgets ################
-game = AddGame(add_window)
+game = AddGame(add_window, connection)
 btn_back_add = Button(add_window, text='Back', cnf=config_btns, command=lambda:change_window(management_window, add_window))
 game.grid()
 btn_back_add.grid()
