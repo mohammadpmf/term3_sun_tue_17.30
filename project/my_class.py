@@ -20,6 +20,12 @@ class MyConnection():
             return 0
         except pymysql.err.IntegrityError:
             return 2
+    def delete(self, name):
+        query = "DELETE FROM `term4`.`games` WHERE `name`=%s"
+        values = name
+        result = self.cursor.execute(query, values)
+        self.db.commit()
+        return result
     
 
 class AddGame(MyGame):
