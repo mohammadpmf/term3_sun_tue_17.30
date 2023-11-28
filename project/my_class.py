@@ -14,9 +14,12 @@ class MyConnection():
     def insert(self, name, price, stock, company=None, age=0, console=None, address=None):
         query = "INSERT INTO `term4`.`games` (`name`, `company`, `age`, `price`, `console`, `stock`, `image`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
         values = name, company, age, price, console, stock, address
-        self.cursor.execute(query, values)
-        self.db.commit()
-        messagebox.showinfo("Success", f"Game {name} added successfully!")
+        try:
+            self.cursor.execute(query, values)
+            self.db.commit()
+            return 0
+        except pymysql.err.IntegrityError:
+            return 2
     
 
 class AddGame(MyGame):
@@ -51,4 +54,21 @@ class AddGame(MyGame):
             self.e_price.delete(0, END)
             self.e_price.focus_set()
             return
-        self.connection.insert(name, price, stock, company, age, console, address)
+        try:
+            stock = int(self.e_stock.get())
+        except:
+            messagebox.showerror("Error", "You must fill stock with a number.")
+            self.e_stock.delete(0, END)
+            self.e_stock.focus_set()
+            return
+        if age=="":
+            age=None
+        if company=="":
+            company=None
+        if console=="":
+            console=None
+        result = self.connection.insert(name, price, stock, company, age, console, address)
+        if result == 0:
+            messagebox.showinfo("Success", f"Game {name} added successfully!")
+        elif result==2:
+            messagebox.showwarning("Duplicate", f"Game {name} already exsists in Table")
