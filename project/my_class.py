@@ -27,6 +27,11 @@ class MyConnection():
         self.db.commit()
         return result
     
+    def get_all(self):
+        query = "SELECT * FROM `term4`.`games`;"
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
+    
 
 class AddGame(MyGame):
     def __init__(self, root, connection, bg='#333333', fg='orange', fg2='orange', text="Game Info", font=('Times', 20), bd=1, labelanchor='n', relief='raised', abg="orange", afg="#333333", padx=5, pady=5):

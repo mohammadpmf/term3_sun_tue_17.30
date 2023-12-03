@@ -31,7 +31,7 @@ add_window.protocol("WM_DELETE_WINDOW", root.destroy)
 update_window.protocol("WM_DELETE_WINDOW", root.destroy)
 delete_window.protocol("WM_DELETE_WINDOW", root.destroy)
 management_window.geometry('700x300+300+200')
-search_window.geometry('500x300+300+200')
+search_window.geometry('1200x600+300+200')
 add_window.geometry('900x700+300+200')
 update_window.geometry('900x700+300+200')
 delete_window.geometry('600x180+300+200')
@@ -76,8 +76,37 @@ update_game.grid()
 btn_back_update.grid()
 #################  end Update window window widgets ################
 
+
+##################   Search window widgets ################
+treev = ttk.Treeview(search_window, selectmode ='browse')
+treev.grid(row=1, column=1, columnspan=10)
+verscrlbar = ttk.Scrollbar(search_window, orient ="vertical", command = treev.yview)
+verscrlbar.grid(row=1, column=11, sticky='ns')
+btn_back_search = Button(search_window, cnf=config_btns, text="Back", command=lambda:change_window(root, search_window))
+btn_back_search.grid(row=2, column=1)
+treev.configure(yscrollcommand = verscrlbar.set)
+treev["columns"] = ("1", "2", "3", "4", "5", "6")
+treev['show'] = 'headings'
+treev.column("1", width = 150, anchor ='c')
+treev.column("2", width = 120, anchor ='c')
+treev.column("3", width = 75, anchor ='c')
+treev.column("4", width = 120, anchor ='c')
+treev.column("5", width = 120, anchor ='c')
+treev.column("6", width = 75, anchor ='c')
+treev.heading("1", text ="Name")
+treev.heading("2", text ="Company")
+treev.heading("3", text ="Age")
+treev.heading("4", text ="Price")
+treev.heading("5", text ="Console")
+treev.heading("6", text ="Stock")
+#################  Search window window widgets ################
 btn_management = Button(root, text='Management', cnf=config_btns, command=lambda:change_window(management_window, root))
-btn_search = Button(root, text='Search', cnf=config_btns)
+btn_search = Button(root, text='Search', cnf=config_btns, command=lambda:change_window(search_window, root))
 btn_management.pack(cnf=config_btns_root_pack)
 btn_search.pack(cnf=config_btns_root_pack)
+
+games = connection.get_all()
+for game in games:
+    treev.insert("", 'end', text =game[0], values =(game[1:8]))
+
 root.mainloop()
