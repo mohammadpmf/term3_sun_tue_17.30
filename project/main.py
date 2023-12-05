@@ -70,7 +70,7 @@ Button(delete_window, text='Back', cnf=config_btns, command=lambda:change_window
 #################  end Delete window window widgets ################
 
 ##################   Update window widgets ################
-update_game = AddGame(update_window, connection)
+update_game = UpdateGame(update_window, connection)
 btn_back_update = Button(update_window, text='Back', cnf=config_btns, command=lambda:change_window(management_window, update_window))
 update_game.grid()
 btn_back_update.grid()
