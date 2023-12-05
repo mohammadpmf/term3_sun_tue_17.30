@@ -31,10 +31,12 @@ class MyConnection():
         query = "UPDATE `term4`.`games` SET name=%s, price=%s, stock=%s, company=%s, age=%s,\
               console=%s, image=%s WHERE `name`=%s;"
         values = name, price, stock, company, age, console, address, old_name
-        result = self.cursor.execute(query, values)
-        self.db.commit()
-        print(result)
-        return result
+        try:
+            result = self.cursor.execute(query, values)
+            self.db.commit()
+            return result
+        except pymysql.err.IntegrityError as error:
+            return 2
 
     def get_all(self):
         query = "SELECT * FROM `term4`.`games`;"
@@ -166,5 +168,7 @@ class UpdateGame(AddGame):
         result = self.connection.update(name, price, stock, old_name, company, age, console, address)
         if result == 1:
             messagebox.showinfo("Success", f"Game {name} updated successfully!")
+        elif result == 2:
+            messagebox.showwarning("Warning", f"Game {name} is already in table!")
         elif result==0:
-            messagebox.showwarning("Warning", f"Game {name} is not in Table!")
+            messagebox.showwarning("Warning", f"Game did not change!")
