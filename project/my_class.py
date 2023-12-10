@@ -48,6 +48,12 @@ class MyConnection():
         self.cursor.execute(query, name)
         return self.cursor.fetchone()
     
+    def search(self, name, company, age, price_min, price_max, console, stock_min, stock_max):
+        query = "SELECT * FROM `term4`.`games` WHERE `name` LIKE %s;"
+        self.cursor.execute(query, f"%{name}%")
+        return self.cursor.fetchall()
+
+    
 
 class AddGame(MyGame):
     def __init__(self, root, connection, bg='#333333', fg='orange', fg2='orange', text="Game Info", font=('Times', 20), bd=1, labelanchor='n', relief='raised', abg="orange", afg="#333333", padx=5, pady=5):
