@@ -2,9 +2,39 @@ from tkinter import *
 from settings import *
 from my_class import *
 
+def authenticate():
+    def check():
+        u = e_username.get().strip()
+        p = e_password.get()
+        answer = connection.get_user_info(u)
+        if answer in [None, ()]:
+            messagebox.showwarning("Warning!", f"Account {u} Not found")
+            return
+        if answer[2]==p:
+            messagebox.showinfo("Success!", f"Welcome {u} :)")
+            management_window.deiconify()
+        else:
+            messagebox.showerror("Error!", "Password is Wrong!!!")
+            root.deiconify()
+        temp.destroy()
+    temp = Toplevel(root)
+    temp.protocol("WM_DELETE_WINDOW", root.destroy)
+    temp.config(bg=BG)
+    Label(temp, cnf=config_labels, text="Enter Your username: ").grid(row=1, column=1)
+    Label(temp, cnf=config_labels, text="Enter Your password: ").grid(row=2, column=1)
+    e_username = Entry(temp, cnf=config_entry)
+    e_password = Entry(temp, cnf=config_entry)
+    e_username.grid(row=1, column=2)
+    e_password.grid(row=2, column=2)
+    Button(temp, text="Login", cnf=config_btns, command=check).grid(row=3, column=1, columnspan=2)
+
+
 def change_window(show_window:Toplevel, hide_window:Toplevel):
-    show_window.deiconify()
     hide_window.withdraw()
+    if show_window == management_window and hide_window==root:
+        authenticate()
+        return
+    show_window.deiconify()
 
 connection = MyConnection()
 root = Tk()

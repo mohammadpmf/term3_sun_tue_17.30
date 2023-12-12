@@ -83,6 +83,10 @@ class MyConnection():
         self.cursor.execute(query, values)
         return self.cursor.fetchall()
 
+    def get_user_info(self, username):
+        query = "SELECT * FROM `term4`.`accounts` WHERE `username`=%s;"
+        self.cursor.execute(query, username)
+        return self.cursor.fetchone()
     
 
 class AddGame(MyGame):
