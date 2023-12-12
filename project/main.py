@@ -3,6 +3,24 @@ from settings import *
 from my_class import *
 
 def authenticate():
+    def create_account():
+        u = e_user.get()
+        p1 = e_pass1.get()
+        p2 = e_pass2.get()
+        if p1!=p2:
+            messagebox.showerror("Error", "Passwords does not match!")
+            return
+        result = connection.create_account(u, p1)
+        if result==1:
+            messagebox.showinfo(f"Success", f"Account {u} has been created successfully :)")
+        elif result==2:
+            messagebox.showwarning("Warning!", "This account already exists!\nTry to log in!")
+        e_username.delete(0, END)
+        e_username.insert(0, u)
+        login_window.deiconify()
+        create_account_window.withdraw()
+        e_password.focus_set()
+
     def check():
         u = e_username.get().strip()
         p = e_password.get()
@@ -16,17 +34,36 @@ def authenticate():
         else:
             messagebox.showerror("Error!", "Password is Wrong!!!")
             root.deiconify()
-        temp.destroy()
-    temp = Toplevel(root)
-    temp.protocol("WM_DELETE_WINDOW", root.destroy)
-    temp.config(bg=BG)
-    Label(temp, cnf=config_labels, text="Enter Your username: ").grid(row=1, column=1)
-    Label(temp, cnf=config_labels, text="Enter Your password: ").grid(row=2, column=1)
-    e_username = Entry(temp, cnf=config_entry)
-    e_password = Entry(temp, cnf=config_entry)
+        login_window.destroy()
+    login_window = Toplevel(root)
+    login_window.protocol("WM_DELETE_WINDOW", root.destroy)
+    login_window.config(bg=BG)
+    create_account_window = Toplevel(root)
+    create_account_window.protocol("WM_DELETE_WINDOW", root.destroy)
+    create_account_window.config(bg=BG)
+    create_account_window.withdraw()
+
+    Label(login_window, cnf=config_labels, text="Enter Your username: ").grid(row=1, column=1)
+    Label(login_window, cnf=config_labels, text="Enter Your password: ").grid(row=2, column=1)
+    e_username = Entry(login_window, cnf=config_entry)
+    e_password = Entry(login_window, cnf=config_entry)
     e_username.grid(row=1, column=2)
     e_password.grid(row=2, column=2)
-    Button(temp, text="Login", cnf=config_btns, command=check).grid(row=3, column=1, columnspan=2)
+    Button(login_window, text="Login", cnf=config_btns, command=check).grid(row=3, column=1, columnspan=2)
+    Label(login_window, text="Don't have an accounte?", cnf=config_labels, font=('', 16)).grid(row=4, column=1, pady=40)
+    Button(login_window, text="Create Here", cnf=config_btns, font=('', 16), command=lambda:change_window(create_account_window, login_window)).grid(row=4, column=2, sticky='w')
+    
+    Label(create_account_window, cnf=config_labels, text="Enter Your username: ").grid(row=1, column=1)
+    Label(create_account_window, cnf=config_labels, text="Enter Your password: ").grid(row=2, column=1)
+    Label(create_account_window, cnf=config_labels, text="Repeat Your password: ").grid(row=3, column=1)
+    e_user = Entry(create_account_window, cnf=config_entry)
+    e_pass1 = Entry(create_account_window, cnf=config_entry)
+    e_pass2 = Entry(create_account_window, cnf=config_entry)
+    e_user.grid(row=1, column=2)
+    e_pass1.grid(row=2, column=2)
+    e_pass2.grid(row=3, column=2)
+    Button(create_account_window, text="Create Account", cnf=config_btns, command=create_account).grid(row=4, column=1, sticky='news')
+    Button(create_account_window, text="Back", cnf=config_btns, command=lambda:change_window(login_window, create_account_window)).grid(row=4, column=2, sticky='news')
 
 
 def change_window(show_window:Toplevel, hide_window:Toplevel):

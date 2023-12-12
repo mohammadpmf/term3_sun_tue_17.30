@@ -87,6 +87,15 @@ class MyConnection():
         query = "SELECT * FROM `term4`.`accounts` WHERE `username`=%s;"
         self.cursor.execute(query, username)
         return self.cursor.fetchone()
+    def create_account(self, username, password):
+        query = "INSERT INTO `term4`.`accounts` (`username`, `password`) VALUES (%s, %s);"
+        values = (username, password)
+        try:
+            self.cursor.execute(query, values)
+            self.db.commit()
+            return 1
+        except pymysql.err.IntegrityError:
+            return 2
     
 
 class AddGame(MyGame):
