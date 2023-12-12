@@ -80,7 +80,10 @@ btn_back_update.grid()
 ##################   Search window widgets ################
 def search():
     games = connection.search(e_name.get(), e_company.get(), e_age.get(), e_min_price.get(),e_max_price.get(), e_console.get(), e_min_stock.get(), e_max_stock.get())
-    print(games)
+    treev.delete(*treev.get_children())
+    for game in games:
+        treev.insert("", 'end', text =game[0], values =(game[1:8]))
+
 treev = ttk.Treeview(search_window, selectmode ='browse')
 treev.grid(row=1, column=1, columnspan=10)
 verscrlbar = ttk.Scrollbar(search_window, orient ="vertical", command = treev.yview)

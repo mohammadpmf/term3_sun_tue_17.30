@@ -11,6 +11,10 @@ class MyConnection():
         self.cursor.execute(query)
         query = "CREATE TABLE IF NOT EXISTS `term4`.`games` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,`name` VARCHAR(45) NOT NULL,`company` VARCHAR(40) NULL,`age` TINYINT UNSIGNED NULL,`price` INT UNSIGNED NOT NULL,`console` VARCHAR(30) NULL,`stock` SMALLINT UNSIGNED NOT NULL,`image` VARCHAR(200) NULL,PRIMARY KEY (`id`),UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE);"
         self.cursor.execute(query)
+        query = "CREATE TABLE IF NOT EXISTS `term4`.`accounts` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,`username` VARCHAR(45) NOT NULL,`password` VARCHAR(45) NOT NULL,PRIMARY KEY (`id`),UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE);"
+        self.cursor.execute(query)
+
+
     def insert(self, name, price, stock, company=None, age=0, console=None, address=None):
         query = "INSERT INTO `term4`.`games` (`name`, `company`, `age`, `price`, `console`, `stock`, `image`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
         values = name, company, age, price, console, stock, address
@@ -49,8 +53,34 @@ class MyConnection():
         return self.cursor.fetchone()
     
     def search(self, name, company, age, price_min, price_max, console, stock_min, stock_max):
-        query = "SELECT * FROM `term4`.`games` WHERE `name` LIKE %s;"
-        self.cursor.execute(query, f"%{name}%")
+        query = "SELECT * FROM `term4`.`games` WHERE 1=1"
+        values = []
+        if name != "":
+            query += " AND name LIKE %s"
+            values.append(f"%{name}%")
+        if company != "":
+            query += " AND company LIKE %s"
+            values.append(f"%{company}%")
+        if age != "":
+            query += " AND age >= %s"
+            values.append(age)
+        if price_min != "":
+            query += " AND price >= %s"
+            values.append(price_min)
+        if price_max != "":
+            query += " AND price <= %s"
+            values.append(price_max)
+        if console != "":
+            query += " AND console LIKE %s"
+            values.append(f"%{console}%")
+        if stock_min != "":
+            query += " AND stock >= %s"
+            values.append(stock_min)
+        if stock_max != "":
+            query += " AND stock <= %s"
+            values.append(stock_max)
+        query += ";"
+        self.cursor.execute(query, values)
         return self.cursor.fetchall()
 
     
