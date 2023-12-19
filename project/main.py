@@ -10,6 +10,27 @@ def authenticate():
         if p1!=p2:
             messagebox.showerror("Error", "Passwords does not match!")
             return
+        if len(p1)<8:
+            messagebox.showerror("Error", "Enter at least 8 characters!")
+            return
+        if p1.islower():
+            messagebox.showerror("Error", "You should use at least one Uppercase Letter!")
+            return
+        if p1.isupper():
+            messagebox.showerror("Error", "You should use at least one Lowercase Letter!")
+            return
+        if p1.isalpha():
+            messagebox.showerror("Error", "You should use at least one digit!")
+            return
+        if p1.isdigit():
+            messagebox.showerror("Error", "Password can not be only digits!")
+            return
+        if u in p1:
+            messagebox.showerror("Error", "Username should not be a part of password!")
+            return
+        if p1 in u:
+            messagebox.showerror("Error", "Password should not be a part of username!")
+            return
         result = connection.create_account(u, p1)
         if result==1:
             messagebox.showinfo(f"Success", f"Account {u} has been created successfully :)")
